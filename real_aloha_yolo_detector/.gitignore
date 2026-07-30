@@ -1,0 +1,33 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+*.egg-info/
+dist/
+build/
+*.whl
+
+# Virtual env
+yolov12_env/
+venv/
+env/
+
+# Model weights (too large for GitHub)
+*.pt
+*.onnx
+*.engine
+
+# Captures / outputs
+capture_*.png
+runs/
+
+# ROS
+install/
+build/
+log/
+
+# Misc
+.env
+*.log

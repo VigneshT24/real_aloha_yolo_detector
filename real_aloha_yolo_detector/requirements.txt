@@ -1,0 +1,7 @@
+numpy==1.26.4
+torch==2.2.2+cu121
+torchvision==0.17.2+cu121
+supervision==0.22
+pyrealsense2
+opencv-python-headless
+huggingface_hub
