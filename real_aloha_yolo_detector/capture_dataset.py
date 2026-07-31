@@ -4,12 +4,12 @@ import numpy as np
 import os
 
 # Create folder to save images
-save_dir = "dataset/images"
+save_dir = "" # ADD DIRECTORY TO SAVE THE SCREENSHOTS IN
 os.makedirs(save_dir, exist_ok=True)
 
 pipeline = rs.pipeline()
 config = rs.config()
-config.enable_device("021222070323")
+config.enable_device("") # ENTER YOUR INTEL REALSENSE CAMERA SERIAL NUMBER
 config.enable_stream(rs.stream.color, 640, 480, rs.format.bgr8, 30)
 pipeline.start(config)
 

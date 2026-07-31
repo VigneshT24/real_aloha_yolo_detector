@@ -9,7 +9,7 @@ model.set_classes(["cell phone", "water bottle", "scissors", "coffee cup"])
 pipeline = rs.pipeline()
 config = rs.config()
 
-config.enable_device("021222070323")
+config.enable_device("") # ENTER YOUR INTEL REALSENSE CAMERA SERIAL NUMBER
 
 
 config.enable_stream(rs.stream.color, 640, 480, rs.format.bgr8, 30)

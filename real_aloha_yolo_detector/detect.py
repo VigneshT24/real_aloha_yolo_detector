@@ -11,7 +11,7 @@ import time
 from ultralytics import YOLO
 
 # configuration
-MODEL_PATH = "/home/vignesh/yolo12x.pt"
+MODEL_PATH = "" # ENTER YOUR YOLO MODEL PATH
 CONFIDENCE   = 0.25
 DEVICE       = "cuda:0"   # or cpu
 WIDTH, HEIGHT, FPS = 640, 480, 30
@@ -130,7 +130,7 @@ def main():
 
     pipeline = rs.pipeline()
     config = rs.config()
-    config.enable_device("215322071290")
+    config.enable_device("") # ENTER YOUR INTEL REALSENSE CAMERA SERIAL NUMBER
     config.enable_stream(rs.stream.color, WIDTH, HEIGHT, rs.format.bgr8, FPS)
     config.enable_stream(rs.stream.depth, WIDTH, HEIGHT, rs.format.z16, FPS)
 

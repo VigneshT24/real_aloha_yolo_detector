@@ -7,7 +7,7 @@ model = YOLO("yolo11m.pt")
 
 pipeline = rs.pipeline()
 config = rs.config()
-config.enable_device("021222070323")
+config.enable_device("") # ENTER YOUR INTEL REALSENSE CAMERA SERIAL NUMBER
 config.enable_stream(rs.stream.color, 640, 480, rs.format.bgr8, 30)
 config.enable_stream(rs.stream.depth, 640, 480, rs.format.z16, 30)
 pipeline.start(config)
@@ -67,7 +67,7 @@ def detect_aruco(gray, image, depth_image):
 
     return board_center, board_bbox
 
-print("[INFO] YOLO + ArUco detection started. Press Q to quit.")
+print("[INFO] YOLO and ArUco detection started. Press Q to quit.")
 
 try:
     while True:
