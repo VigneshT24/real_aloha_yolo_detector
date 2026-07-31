@@ -3,14 +3,13 @@
 Real-time object detection pipeline for the ALOHA bimanual robotic system, combining YOLOv12, Intel RealSense depth sensing, ArUco marker-based spatial referencing, and a stateful object-memory system.
 
 ## Features 
-* YOLOv12 object detection with GPU acceleration via CUDA
-* Intel RealSense D400 depth integration: aligned depth plus color streams with depth colormap overlay
-* ArUco marker detection for spatial referencing and pose estimation (X/Y/Z axes)
-* Object-memory (MEM lock) system: persists detected object locations through classifier dropout and bounding-box flickering
-* Depth-based lock invalidation: automatically removes memory locks when an object physically moves
-* Configurable detection zone: restricts YOLO inference to a defined pixel region
-* Duplicate detection filtering: suppresses overlapping detections of the same object using grid-cell deduplication
-* CLAHE contrast enhancement: improves detection accuracy under varying lighting conditions
+* **Primary YOLOv12 Pipeline (detect.py)**: High-speed object detection with GPU acceleration via CUDA.
+* **Intel RealSense D400 Integration**: Aligned depth and color streams with depth colormap overlays.
+* **Spatial Referencing**: ArUco marker detection (DICT_4X4_1000) for spatial anchoring and 6DoF pose estimation (X/Y/Z axes).
+* **Object-Memory (MEM lock) System**: Persists detected object locations through classifier dropout and bounding-box flickering.
+* **Depth-based lock invalidation**: Automatically removes memory locks when an object physically moves.
+* **Duplicate Detection Filtering**: Suppresses overlapping detections of the same object using grid-cell deduplication.
+* **Zero-Shot & Tracking Modules**: Alternative scripts utilizing YOLOWorld for zero-shot vocabulary detection and YOLO11m with BotSORT tracking.
 
 ## Hardware Requirements
 * Intel RealSense D400 series depth camera
@@ -25,11 +24,12 @@ git clone https://github.com/your-username/real_aloha_yolo_detector.git
 cd real_aloha_yolo_detector
 
 # Create conda environment
-conda create -n fusionvision python=3.11
-conda activate fusionvision
+conda create -n yoloaloha python=3.11
+conda activate yoloaloha
 
 # Install dependencies
 pip install -r requirements.txt
+pip install ultralytics  # Required for YOLO11 and YOLO-World scripts
 
 # Clone and install YOLOv12
 git clone https://github.com/sunsmarterjie/yolov12 yolov12
@@ -41,7 +41,7 @@ wget https://github.com/sunsmarterjie/yolov12/releases/download/turbo/yolov12x.p
 
 ## Usage
 ```bash
-conda activate fusionvision
+conda activate yoloaloha
 python detect.py
 ```
 
@@ -59,6 +59,27 @@ At the top of ```detect.py```:
 | ```DEVICE``` | ```cuda:0``` | 	Inference device |
 | ```WIDTH/HEIGHT/FPS``` | ```640/480/30``` | 	RealSense stream configuration |
 | ```LOCK_IMMEDIATELY``` | ```['cell_phone']``` | Classes to memory-lock instantly on first detection |
+
+## Dataset Capture Utility
+Use this script to rapidly collect image data from the RealSense camera for custom training.
+
+```bash
+python capture_dataset.py
+```
+> (Press SPACE to capture and save an image to the specified path, Q to quit)
+
+## Alternate Detection Pipelines
+* ```aruco_yolo.py```: Utilizes YOLO11m (```yolo11m.pt```) with persistent BotSORT tracking and calculates object positions relative to a centralized ArUco board.
+* ```yolo_aloha.py```: Implements YOLO-World (```yolov8x-worldv2.pt```) for zero-shot text-prompt detection (currently configured for: "cell phone", "water bottle", "scissors", "coffee cup"). You can change these configurations.
+
+## Configuration & Troubleshooting
+Camera Serial Number:
+
+```python
+config.enable_device("") # ENTER YOUR INTEL REALSENSE CAMERA SERIAL NUMBER
+```
+
+You must initialize your Intel RealSense device by entering the serial number (e.g., 021222070323)
 
 ## Object Memory System 
 The MEM lock system solves the bounding-box flickering problem common in real-time YOLO inference.
@@ -106,3 +127,6 @@ Adjust these coordinates in ```detect.py``` to match your camera's field of view
 * Ultralytics
 * Intel RealSense SDK
 * Akhil Joshi - original YOLOv12 RealSense detector
+
+## Mentor
+Dr. Mingyu Cai, UC Riverside
